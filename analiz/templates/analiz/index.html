@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      th, td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+      }
+    </style>
+  </head>
+  <body>
+    {% if error %}
+      <p style="color: red">{{ error }}</p>
+    {% endif %}
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <input type="file" name="csv-file" required>
+      <input type="submit" name="submit" value="Upload">
+      <input type="submit" name="submit" value="Percentage">
+      <input type="submit" name="submit" value="Describe">
+    </form>    
+    {% if data %}
+      <table>
+        <thead>
+          <tr>
+            {% for key in data.0.keys %}
+              <th>{{ key }}</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in data %}
+            <tr>
+              {% for key, value in row.items %}
+                <td>{{ value }}</td>
+              {% endfor %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% endif %}
+  </body>
+</html>
